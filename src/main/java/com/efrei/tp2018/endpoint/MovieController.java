@@ -10,6 +10,7 @@ import javax.validation.Valid;
 
 import com.efrei.tp2018.dto.Movie;
 import com.efrei.tp2018.dto.MovieType;
+import com.efrei.tp2018.service.ActorService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,12 @@ public class MovieController {
         MOVIE_DATASOURCE.put(2L, new Movie(2L, "Snowden", MovieType.DRAMA, LocalDate.of(2016, Month.SEPTEMBER, 16), "Oliver Stone"));
     }
 
+    private final ActorService actorService;
+
+    public MovieController(ActorService actorService) {
+        this.actorService = actorService;
+    }
+
     @GetMapping
     public ResponseEntity findAll() {
         if (MOVIE_DATASOURCE.isEmpty()) {
@@ -42,11 +49,13 @@ public class MovieController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findOne(@PathVariable Long id) {
-        var movie = Optional.ofNullable(MOVIE_DATASOURCE.get(id));
+    public ResponseEntity findOne(@PathVariable Long id) throws Exception {
+        var movie = Optional.ofNullable(MOVIE_DATASOURCE.get(id))
+                .orElseThrow(Exception::new);
 
-        return movie.<ResponseEntity>map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        movie.addActor(actorService.requestActor("Gadot"));
+
+        return ResponseEntity.ok(movie);
     }
 
     @PostMapping
