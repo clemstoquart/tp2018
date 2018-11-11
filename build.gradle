@@ -1,11 +1,10 @@
 buildscript {
   ext {
-    springBootVersion = '2.1.0.RC1'
+    springBootVersion = '2.1.0.RELEASE'
   }
   repositories {
+    jcenter()
     mavenCentral()
-    maven { url "https://repo.spring.io/snapshot" }
-    maven { url "https://repo.spring.io/milestone" }
   }
   dependencies {
     classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -21,15 +20,14 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 11
 
 repositories {
+  jcenter()
   mavenCentral()
-  maven { url "https://repo.spring.io/snapshot" }
-  maven { url "https://repo.spring.io/milestone" }
 }
 
 
 dependencies {
-  implementation('org.springframework.boot:spring-boot-starter-actuator')
   implementation('org.springframework.boot:spring-boot-starter-web')
+  implementation('org.springframework.boot:spring-boot-starter-actuator')
 
   runtimeOnly('org.springframework.boot:spring-boot-devtools')
 
