@@ -1,6 +1,8 @@
 package com.efrei.tp2018.dto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -19,6 +21,8 @@ public class Movie {
 
     @NotBlank
     private String director;
+
+    private List<Actor> actors;
 
     public Movie() {
     }
@@ -69,5 +73,21 @@ public class Movie {
 
     public void setDirector(String director) {
         this.director = director;
+    }
+
+    public List<Actor> getActors() {
+        return actors;
+    }
+
+    public void setActors(List<Actor> actors) {
+        this.actors = actors;
+    }
+
+    public void addActor(Actor actor) {
+        if (this.actors == null) {
+            this.actors = new ArrayList<>();
+        }
+
+        this.actors.add(actor);
     }
 }
